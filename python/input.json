@@ -1,0 +1,22 @@
+{
+  "elderlyList": [
+    {
+      "id": "6812aa6a773c665d62a77bea",
+      "apartmentSize": 30,
+      "preferredTimes": [
+        { "day": "tuesday", "time": "09:00" },
+        { "day": "friday", "time": "12:00" }
+      ]
+    }
+  ],
+  "cleanerList": [
+    {
+      "id": "6812d0bc3c155ceebc3789df",
+      "workDays": ["tuesday", "friday"]
+    },
+    {
+      "id": "681940f10505e4e561f20222",
+      "workDays": ["monday", "wednesday"]
+    }
+  ]
+}

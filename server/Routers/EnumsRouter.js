@@ -1,0 +1,12 @@
+const express = require("express")
+const router = express.Router()
+const {getDayInWeek,getGender,getPersonalStatus,getActivityCategory,getRoles,getRolesWithOutManager,getUserStatus,getApartmentStatus} = require("../Controllers/EnumsController")
+router.get("/getDayInWeek",getDayInWeek)
+router.get("/getGender",getGender)
+router.get("/getPersonalStatus",getPersonalStatus)
+router.get("/getActivityCategory",getActivityCategory)
+router.get("/getRoles",getRoles)
+router.get("/getRolesWithOutManager",getRolesWithOutManager)
+router.get("/getUserStatus",getUserStatus)
+router.get("/getApartmentStatus",getApartmentStatus)
+module.exports = router
