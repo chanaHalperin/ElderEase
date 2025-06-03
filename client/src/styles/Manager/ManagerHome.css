@@ -1,0 +1,116 @@
+.manager-home-bg {
+  min-height: 100vh;
+  background: #f7fafc;
+  padding: 48px 0 32px 0;
+  /* הסר או הגיב את השורה הבאה אם קיימת: */
+  direction: ltr;
+}
+
+.manager-home-header,
+.manager-home-title,
+.manager-home-subtitle {
+  direction: rtl;
+  text-align: center;
+}
+
+.manager-home-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.manager-home-title {
+  color: #223a5e;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.manager-home-subtitle {
+  color: #555;
+  font-size: 1.15rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.manager-home-actions {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.manager-home-link {
+  text-decoration: none;
+}
+
+.manager-home-card {
+  border-radius: 16px;
+  box-shadow: 0 2px 16px #223a5e11;
+  transition: box-shadow 0.2s;
+  background: #fff;
+  min-height: 220px;
+  text-align: center;
+}
+
+.manager-home-card:hover {
+  box-shadow: 0 6px 32px #1890ff22;
+}
+
+.manager-home-icon {
+  margin: 24px 0 0 0;
+  text-align: center;
+}
+.manager-live-section {
+  max-width: 950px;
+  margin: 48px auto 0 auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px #223a5e11;
+  padding: 28px 18px 24px 18px;
+}
+
+.manager-live-title {
+  color: #223a5e;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+@media (max-width: 1000px) {
+  .manager-home-actions {
+    max-width: 98vw;
+    padding: 0 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .manager-home-header,
+  .manager-home-title,
+  .manager-home-subtitle {
+    font-size: 1rem;
+    padding: 0 8px;
+  }
+  .manager-home-actions {
+    max-width: 100vw;
+    padding: 0 2px;
+  }
+}
+/* הוסף ל-ManagerHome.css או קובץ רלוונטי */
+.role-btn {
+  background: #f0f5ff;
+  color: #223a5e;
+  border: none;
+  border-radius: 22px;
+  padding: 8px 22px;
+  margin: 0 8px 12px 8px;
+  font-size: 1.08rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px #223a5e11;
+  outline: none;
+}
+
+.role-btn:hover,
+.role-btn.active {
+  background: #1890ff;
+  color: #fff;
+  box-shadow: 0 2px 8px #1890ff33;
+}

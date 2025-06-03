@@ -1,0 +1,81 @@
+.apartment-list-bg {
+  min-height: 100vh;
+  background: #f7fafc;
+  padding: 32px 0 48px 0;
+  direction: rtl;
+}
+
+.apartment-list-header {
+  max-width: 1100px;
+  margin: 0 auto 32px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.apartment-list-header .ant-typography {
+  margin-bottom: 0;
+  color: #223a5e;
+  font-weight: 700;
+}
+
+.apartment-list-filters {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.apartment-list-search {
+  max-width: 220px;
+}
+
+.apartment-list-sort {
+  min-width: 110px;
+}
+
+.apartment-list-row {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.apartment-card {
+  border-radius: 16px;
+  box-shadow: 0 2px 16px #223a5e11;
+  transition: box-shadow 0.2s;
+  background: #fff;
+  min-height: 180px;
+}
+
+.apartment-card:hover {
+  box-shadow: 0 6px 32px #1890ff22;
+}
+
+.apartment-owner {
+  color: #1890ff;
+  font-weight: 500;
+}
+
+.apartment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+}
+
+.apartment-desc {
+  color: #555;
+  font-size: 0.97rem;
+  margin-top: 8px;
+  background: #f7fafc;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.apartment-list-spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 220px;
+}

@@ -1,0 +1,42 @@
+.signin-bg {
+  min-height: 100vh;
+  background: linear-gradient(120deg, #f7fafc 60%, #e6f7ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signin-card {
+  width: 100%;
+  max-width: 370px;
+  padding: 32px 28px 18px 28px;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px #1890ff18;
+  background: #fff;
+  direction: rtl;
+}
+
+.signin-title {
+  text-align: center;
+  color: #1890ff;
+  font-weight: 700;
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+}
+
+.signin-link {
+  color: #1890ff;
+  transition: color 0.2s;
+}
+
+.signin-link:hover {
+  color: #40a9ff;
+  text-decoration: underline;
+}
+
+.signin-register {
+  text-align: center;
+  margin-top: 12px;
+  color: #888;
+  font-size: 0.97rem;
+}

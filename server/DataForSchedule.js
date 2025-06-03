@@ -1,42 +1,58 @@
 const Elderly = require('./Modules/ElderlyModule');
 const Cleaner = require('./Modules/CleanerModule');
+const AppClean = require('./Modules/AppartmentCleanModule');
+const timeOfCleanForMeter = 2.5;
 
 async function getCleaningData() {
-  const timeOfCleanForMeter = 2.5; // זמן ניקוי  של מטר רבוע
   try {
-    // שליפת זקנים עם דירתם
     const elderlyList = await Elderly.find()
-      .populate({ path: 'ApartmentId', select: 'SizeInSquareMeters' }) // שולף רק את גודל הדירה
+      .populate({ path: 'ApartmentId', select: 'SizeInSquareMeters Name' })
       .lean();
 
-    const cleanerList = await Cleaner.find().lean();
+    const cleanerList = await Cleaner.find()
+      .populate({ path: 'RefId', select: 'fullName' })
+      .lean();
 
-    const processedElderly = elderlyList.map(e => {
-      const apartmentSize = e.ApartmentId?.SizeInSquareMeters || 0;
-      const cleaningDuration = apartmentSize * timeOfCleanForMeter; // בדקות
+    const existingSchedule = await AppClean.find()
+      .populate({ path: 'AppartmentId', select: 'Name' })
+      .populate({ path: 'cleanerId', select: 'fullName' })
+      .lean();
 
-      return {
-        id: e._id,
-        preferredTimes: e.PreferredCleaningTime, // [{ day: 'monday', time: '10:00' }, ...]
-        apartmentSize: apartmentSize,
-        cleaningDurationMinutes: cleaningDuration,
-      };
-    });
+    const processedElderly = elderlyList
+      .filter(e => e.ApartmentId?._id)
+      .map(e => {
+        const apartmentSize = e.ApartmentId.SizeInSquareMeters || 0;
+        return {
+          apartmentId: e.ApartmentId._id,
+          preferredTimes: e.PreferredCleaningTime,
+          apartmentSize,
+          cleaningDurationMinutes: apartmentSize * timeOfCleanForMeter
+        };
+      });
 
     const processedCleaners = cleanerList.map(c => ({
       id: c._id,
-      workDays: c.dayInWork,
+      name: c.RefId?.fullName || '',
+      workDays: c.dayInWork
     }));
 
-    // console.log('processedElderly', JSON.stringify(processedElderly, null, 2));
-    // console.log('processedCleaners', JSON.stringify(processedCleaners, null, 2));
+    const processedExisting = existingSchedule.map(item => ({
+      apartmentId: item.AppartmentId._id,
+      cleanerId: item.cleanerId?._id,
+      day: item.Day,
+      startTime: item.StartTime,
+      endTime: item.EndTime
+    }));
 
-    return { elderlyList: processedElderly, cleanerList: processedCleaners };
+    return {
+      elderlyList: processedElderly,
+      cleanerList: processedCleaners,
+      existingSchedule: processedExisting
+    };
   } catch (err) {
-    console.error('שגיאה בשליפה:', err);
-    return { elderlyList: [], cleanerList: [] };
+    return { elderlyList: [], cleanerList: [], existingSchedule: [] };
   }
 }
 
-module.exports={getCleaningData}
+module.exports = { getCleaningData };
 

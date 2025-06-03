@@ -1,5 +1,4 @@
 const ActivityModule = require("../Modules/ActivityModule");
-const {ApartmentStatus}=require("../Constants/enums")
 
 async function getAll(req, res) {
     let arrA = await ActivityModule.find();
@@ -14,7 +13,6 @@ async function getById(req, res) {
 async function create(req, res) {
     let a = await new ActivityModule(req.body);
     await a.save();
-    console.log(req.body);
     res.status(200).send(a);
 }
 
@@ -37,63 +35,53 @@ async function getAllWithParticipantsList(req, res) {
     let arrA = await ActivityModule.find().populate('participantsList');
     res.status(200).send(arrA);
 }
-async function addParticipant(req, res) {
-    const activityId = req.params.id;
-    const { elderlyId } = req.body;
+async function addParticipant(req) {
+    const activityId = req.body.activityId;
+    const elderlyId = req.params.id;
 
     try {
         const activity = await ActivityModule.findById(activityId);
-
         if (!activity) {
-            return res.status(404).send({ error: "Activity not found" });
+            return { success: false, status: 404, error: "Activity not found" };
         }
 
-        // בדיקה אם כבר רשום
         if (activity.participantsList.includes(elderlyId)) {
-            return res.status(400).send({ error: "Participant already added" });
+            return { success: false, status: 400, error: "Participant already added" };
         }
 
-        // בדיקה אם מלא
         if (activity.participantsList.length >= activity.MaxParticipants) {
-            return res.status(400).send({ error: "Maximum number of participants reached" });
+            return { success: false, status: 400, error: "Maximum number of participants reached" };
         }
 
-        // הוספה לרשימה
         activity.participantsList.push(elderlyId);
         await activity.save();
-
-        res.status(200).send(activity);
+        return { success: true, activity };
     } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: "Failed to add participant" });
+        return { success: false, status: 500, error: "Failed to add participant" };
     }
 }
+
 async function deleteParticipant(req, res) {
-    const elderlyId = req.params.id; 
+    const elderlyId = req.params.id;
     const activityId = req.body.activityId; // מזהה הפעילות למחיקה
 
     try {
         const activity = await ActivityModule.findById(activityId);
 
         if (!activity) {
-            return res.status(404).send({ error: "Activity not found" });
+            return { success: false, status: 404, error: "Activity not found" };
         }
 
-        //בדיקה אם לא קיים
         if (!(activity.participantsList.includes(elderlyId))) {
-            return res.status(400).send({ error: "Participant not exists" });
+            return { success: false, status: 400, error: "Participant not exists" };
         }
 
-           // הסרה מהמערך
-           activity.participantsList = activity.participantsList.filter(
+        activity.participantsList = activity.participantsList.filter(
             participant => participant.toString() !== elderlyId
         );
         await activity.save();
-
-        res.status(200).send(activity);
     } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: "Failed to add participant" });
+        return { success: false, status: 500, error: "Failed to add participant" };
     }
 }
 module.exports = {

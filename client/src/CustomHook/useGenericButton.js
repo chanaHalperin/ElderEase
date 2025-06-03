@@ -8,7 +8,6 @@ export function useGenericButton(action) {
     try {
       await action(); // מפעיל את הפונקציה שקיבלת
     } catch (err) {
-      console.error('שגיאה בביצוע הפעולה:', err);
     } finally {
       setLoading(false);
     }

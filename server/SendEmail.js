@@ -15,8 +15,6 @@ async function sendEmail(to, subject, text) {
     subject,
     text,
   };
-  console.log('Email send result:', mailOptions);
-
   return transporter.sendMail(mailOptions);
 }
 

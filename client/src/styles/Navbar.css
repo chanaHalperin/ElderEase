@@ -1,0 +1,113 @@
+/* .navbar-container {
+  width: 100%;
+  box-shadow: 0 2px 8px #f0f1f2;
+  background: linear-gradient(90deg, #001529 60%, #1890ff 100%);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+} */
+ html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+.navbar-container {
+  width: 100vw; /* תמיד תופס את כל רוחב המסך */
+  box-shadow: 0 2px 8px #f0f1f2;
+  background: linear-gradient(90deg, #001529 60%, #1890ff 100%);
+  position: sticky;
+  top: 0;
+  left: 0; /* חשוב כדי ליישר בדיוק להתחלה */
+  z-index: 100;
+}
+
+.navbar-logo {
+  height: 48px;
+  margin-left: 24px;
+  vertical-align: middle;
+  float: right;
+  background: transparent; /* רקע שקוף */
+  border-radius: 0; /* אין פינות מעוגלות */
+  padding: 0; /* אין ריווח פנימי */
+  box-shadow: none; /* ללא צל */
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  background: transparent !important;
+  border-bottom: none !important;
+  min-height: 64px;
+}
+
+.navbar-menu .ant-menu-item {
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+  border-radius: 8px;
+  margin: 0 2px;
+}
+
+.navbar-menu .ant-menu-item-selected,
+.navbar-menu .ant-menu-item-active {
+  background: linear-gradient(90deg, #1890ff 40%, #40a9ff 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.12);
+}
+
+.navbar-menu .ant-menu-item a {
+  color: #fff !important;
+  transition: color 0.2s;
+}
+
+.navbar-menu .ant-menu-item a:hover {
+  color: #ffe58f !important;
+  text-shadow: 0 2px 8px #1890ff44;
+}
+
+.navbar-user {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  padding-right: 24px;
+}
+
+.navbar-avatar {
+  box-shadow: 0 4px 16px #1890ff40;
+  box-shadow: 0 4px 16px #07376440;
+  font-weight: bold;
+  background: linear-gradient(135deg, #40369f 60%, #2813e6 100%) !important;
+  border: 2px solid #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.navbar-avatar:hover {
+  transform: scale(1.08) rotate(-3deg);
+  box-shadow: 0 8px 24px #1890ff55;
+  cursor: pointer;
+}
+
+.navbar-username {
+  color: #fff !important;
+  font-size: 1.05rem;
+  margin-left: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 8px #1890ff33;
+  transition: color 0.2s;
+}
+
+@media (max-width: 600px) {
+  .navbar-menu {
+    font-size: 0.95rem;
+    min-height: 48px;
+  }
+  .navbar-user {
+    padding-right: 8px;
+  }
+  .navbar-username {
+    display: none;
+  }
+}

@@ -1,5 +1,5 @@
 const ApartmentModules = require("../Modules/ApartmentModule");
-const {ApartmentStatus}=require("../Constants/enums")
+const { ApartmentStatus } = require("../Constants/enums")
 
 async function getAll(req, res) {
     let arrA = await ApartmentModules.find();
@@ -27,31 +27,21 @@ async function update(req, res) {
     res.status(200).send(a);
 }
 async function updateElderlyIdForApartment(req, res) {
-    console.log("updateElderlyIdForApartment called")
-    const elderlyId = req.params.id;  // מזהה הזקן
-    const { apartmentId } = req.body; // מזהה הדירה 
-    
+    const elderlyId = req.params.id; 
+    const { apartmentId } = req.body; 
+
     try {
-        // חיפוש הדירה ב-Database
         const apartment = await ApartmentModules.findById(apartmentId);
-        
         if (!apartment) {
-            return res.status(404).send("Apartment not found");
+            return { success: false, status: 404, error: "Apartment not found" };
         }
-        
-        // עדכון ה-ElderlyId בדירה
         apartment.ElderlyId = elderlyId;
         apartment.status = ApartmentStatus.OCCUPIED; // עדכון הסטטוס לדירה תפוסה
-        
-        // שמירת השינויים במסד הנתונים
         await apartment.save();
-        
-        console.log("ElderlyId updated successfully");
-       // res.status(200).send(apartment);
+        return { success: true, status: 200};
     } catch (err) {
-        console.error("Error updating ElderlyId:", err.message);
-        //res.status(500).send("Error updating ElderlyId");
+        return { success: false, status: 500, error: "Error update elferly id" };
     }
 }
 
-module.exports = { getAll, getById, create, deleteById, update,updateElderlyIdForApartment };
+module.exports = { getAll, getById, create, deleteById, update, updateElderlyIdForApartment };

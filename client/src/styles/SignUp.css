@@ -1,0 +1,93 @@
+.signup-bg {
+  min-height: 100vh;
+  background: linear-gradient(120deg, #f7fafc 60%, #e6f7ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.signup-bg::before,
+.signup-bg::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.22;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.signup-bg::before {
+  width: 320px;
+  height: 320px;
+  left: -120px;
+  top: 10%;
+  background: #223a5e;
+}
+
+.signup-bg::after {
+  width: 260px;
+  height: 260px;
+  right: -100px;
+  bottom: 8%;
+  background: #1a2746;
+}
+
+.signup-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 470px;
+  padding: 32px 28px 18px 28px;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px #223a5e55;
+  background: #fff;
+  direction: rtl;
+}
+
+.signup-card {
+  width: 100%;
+  max-width: 470px;
+  padding: 32px 28px 18px 28px;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px #1890ff18;
+  background: #fff;
+  direction: rtl;
+}
+
+.signup-title {
+  text-align: center;
+  color: #1890ff;
+  font-weight: 700;
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+}
+
+.ant-form-item-label > label {
+  font-weight: 500;
+  color: #1890ff;
+}
+
+.ant-input,
+.ant-input-password,
+.ant-select-selector {
+  background: #f7fafc !important;
+  border-radius: 8px !important;
+}
+
+.ant-input:focus,
+.ant-input-password:focus,
+.ant-select-focused .ant-select-selector {
+  border-color: #1890ff !important;
+  box-shadow: 0 0 0 2px #bae7ff55;
+}
+
+.ant-btn-primary {
+  background: #1890ff;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.ant-btn-primary:hover {
+  background: #40a9ff;
+}

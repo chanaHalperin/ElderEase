@@ -1,70 +1,69 @@
+
 import React, { useEffect, useState } from 'react';
-import { Button, Calendar, Tooltip, Card, Typography } from 'antd';
+import { Button, Calendar, Tooltip, Card, Typography, message } from 'antd';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import 'dayjs/locale/he';
-import { message } from 'antd';
 import { useSelector } from 'react-redux';
 
-
 dayjs.locale('he');
-const { Text, Title } = Typography;
-const ElderlyActivitiesCalendar = () => {
-    const [activitiesByDate, setActivitiesByDate] = useState({});
-    //צריך לשלוף דווקא את הId של הזקן של היוזר את היוזר
+const { Text } = Typography;
 
-  const userId=  useSelector((state) => state.user._id);
-    console.log("userId",userId)
-  const [activities, setActivities] = useState([]);
-    const[flag,setFlag]=useState(false)
+const ElderlyActivitiesCalendar = () => {
+    const user = useSelector((state) => state.user);
+    const [activitiesByDate, setActivitiesByDate] = useState({});
 
     useEffect(() => {
-        console.log("userId",userId)
-            const elderly =axios.get(`http://localhost:8080/Elderly/${userId}/getElderlyByUserId`)
-            .then(res => {
-                console.log("elderlyId",res.data._id)
-            })
-            .catch(err => {
-                console.error('שגיאה בשליפת זקן ID:', err);
-            });
-      const elderlyId = elderly._id;
-        setFlag(false)
-        axios.get(`http://localhost:8080/Elderly/getByIdWithActivities/${elderlyId}`)
-            .then(res => {
-                const activities = res.data.ActivitiesList;
+        if (!user) return;
+        const fetchElderlyAndActivities = async () => {
+            try {
+                const activitiesRes = await axios.get(`http://localhost:8080/Elderly/getByIdWithActivities/${user.RefId}`, {
+                    withCredentials: true,
+                });
+
+                const activities = activitiesRes.data.ActivitiesList;
                 const grouped = {};
 
-                activities.forEach(act => {
+                activities.forEach((act) => {
                     const dateKey = dayjs(act.Date).format('YYYY-MM-DD');
                     if (!grouped[dateKey]) grouped[dateKey] = [];
                     grouped[dateKey].push(act);
                 });
 
                 setActivitiesByDate(grouped);
-            })
-            .catch(err => {
-                console.error('שגיאה בשליפת הפעילויות:', err);
-            });
-    }, [flag]);
+            } catch (error) {
+                message.error("אירעה שגיאה בעת טעינת הנתונים.");
+            }
+        };
+        fetchElderlyAndActivities();
+    }, [user]);
+
     const handleDelete = async (activityId) => {
         try {
-            setFlag(true)
-            await axios.patch(`http://localhost:8080/Elderly/${elderlyId}/removeActivityFromElderly`, {
+            if (!user) return;
+            await axios.patch(`http://localhost:8080/Elderly/${user.RefId}/removeActivityFromElderly`, {
                 activityId,
-            });
-            setActivities(prev => prev.filter(act => act._id !== activityId));
+            }, { withCredentials: true });
             message.success("הפעילות הוסרה");
+            // הסרה מהתצוגה
+            setActivitiesByDate((prev) => {
+                const updated = { ...prev };
+                for (const date in updated) {
+                    updated[date] = updated[date].filter((act) => act._id !== activityId);
+                    if (updated[date].length === 0) delete updated[date]; // הסרת תאריך ריק
+                }
+                return updated;
+            });
         } catch (err) {
-            console.error(err);
-            message.error("שגיאה במחיקה");
+            message.error("שגיאה במחיקת פעילות");
         }
     };
+
     const renderTooltipContent = (activity) => (
         <Card
             title={activity.Name}
             variant="borderless"
-            style={{ width: 250, boxShadow: '0 4px 12px rgba(0,0,0,0.1)', borderRadius: '12px' }}
-        >
+            style={{ width: 250, boxShadow: '0 4px 12px rgba(0,0,0,0.1)', borderRadius: '12px' }} >
             <Text><strong>קטגוריה:</strong> {activity.Category}</Text><br />
             <Text><strong>תאריך:</strong> {dayjs(activity.Date).format('DD/MM/YYYY HH:mm')}</Text><br />
             <Text><strong>מיקום:</strong> {activity.Location}</Text><br />
@@ -81,7 +80,7 @@ const ElderlyActivitiesCalendar = () => {
             >
                 הסר פעילות
             </Button>
-        </Card >
+        </Card>
     );
 
     const dateCellRender = (value) => {

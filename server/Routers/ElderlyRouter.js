@@ -1,27 +1,28 @@
 const express = require("express")
 const router = express.Router()
-const { getAll, getById, create, deleteById, update, getAllElderlyWithApartments,
+const {getAll, getById, create, deleteById, update, getAllElderlyWithApartments,
     getByIdWithApartment, getAllElderlyWithActivities, getByIdWithActivities,
     getByIdWithApartmentAndActivity, getAllWithApartmentAndActivity,
     addActivityToElderly, removeActivityFromElderly, updateApartmentForElderly,
     getElderlyByUserId, updateCleaningDaysForElderly } = require("../Controllers/ElderlyController")
+const{verifyToken}=require("../auth")
 
-router.post("/create", create)
-router.get("/getAll", getAll)
-router.get("/getById/:id", getById)
-router.delete("/deleteById/:id", deleteById)
-router.put("/update/:id", update)
-router.get("/getAllElderlyWithApartments", getAllElderlyWithApartments)
-router.get("/getAllElderlyWithActivities", getAllElderlyWithActivities)
-router.get("/getByIdWithApartment/:id", getByIdWithApartment)
-router.get("/getByIdWithActivities/:id", getByIdWithActivities)
-router.get("/getByIdWithApartmentAndActivity/:id", getByIdWithApartmentAndActivity)
-router.get("/getAllWithApartmentAndActivity", getAllWithApartmentAndActivity)
-router.get("/:_id/getElderlyByUserId", getElderlyByUserId)
-router.patch("/:id/addActivityToElderly", addActivityToElderly)
-router.patch("/:id/removeActivityFromElderly", removeActivityFromElderly)
-router.patch("/updateApartmentForElderly/:id", updateApartmentForElderly)
-router.put('/:id/updateCleaningDaysForElderly', updateCleaningDaysForElderly);
+router.post("/create",verifyToken, create)
+router.get("/getAll",verifyToken, getAll)
+router.get("/getById/:id",verifyToken, getById)
+router.delete("/deleteById/:id",verifyToken, deleteById)
+router.put("/update/:id",verifyToken, update)
+router.get("/getAllElderlyWithApartments",verifyToken, getAllElderlyWithApartments)
+router.get("/getAllElderlyWithActivities",verifyToken, getAllElderlyWithActivities)
+router.get("/getByIdWithApartment/:id",verifyToken, getByIdWithApartment)
+router.get("/getByIdWithActivities/:id",verifyToken, getByIdWithActivities)
+router.get("/getByIdWithApartmentAndActivity/:id",verifyToken, getByIdWithApartmentAndActivity)
+router.get("/getAllWithApartmentAndActivity",verifyToken, getAllWithApartmentAndActivity)
+router.get("/:_id/getElderlyByUserId",verifyToken, getElderlyByUserId)
+router.patch("/:id/addActivityToElderly",verifyToken, addActivityToElderly)
+router.patch("/:id/removeActivityFromElderly",verifyToken, removeActivityFromElderly)
+router.patch("/updateApartmentForElderly/:id",verifyToken, updateApartmentForElderly)
+router.put('/:id/updateCleaningDaysForElderly',verifyToken, updateCleaningDaysForElderly);
 module.exports = router
 
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 function SendEmailForm() {
+  return; //חסמתי זמנית את שליחת המיילים זה כבר עובד - רק מטריד
   const [form, setForm] = useState({ to: '', subject: '', text: '' });
   const [message, setMessage] = useState('');
 
@@ -24,7 +25,6 @@ function SendEmailForm() {
         setMessage('שליחת המייל נכשלה');
       }
     } catch (error) {
-      console.error(error);
       setMessage('שגיאה בעת שליחת המייל');
     }
   };

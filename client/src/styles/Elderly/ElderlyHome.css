@@ -1,0 +1,88 @@
+.elderly-home-bg {
+  min-height: 100vh;
+  background: #f7fafc;
+  padding: 0;
+}
+.elderly-home-header {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 32px;
+}
+.elderly-home-title {
+  color: #223a5e;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.elderly-home-desc {
+  color: #4b587c;
+  font-size: 1.15rem;
+  margin-bottom: 0;
+}
+.elderly-main-content {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto 40px auto;
+  align-items: flex-start;
+}
+.elderly-side-info {
+  flex: 1 1 260px;
+  min-width: 240px;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.elderly-apartment-card,
+.elderly-info-card {
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 2px 16px #223a5e11;
+  margin-bottom: 0;
+  font-size: 1.08rem;
+  direction: rtl;
+}
+.elderly-calendar-wide {
+  flex: 3 1 700px;
+  min-width: 0;
+}
+.elderly-calendar-card {
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 2px 16px #223a5e11;
+  padding: 28px 18px 24px 18px;
+  min-height: 420px;
+}
+.elderly-suggested-section {
+  max-width: 1200px;
+  margin: 40px auto 0 auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px #223a5e11;
+  padding: 32px 18px 24px 18px;
+}
+.elderly-suggested-title {
+  color: #223a5e;
+  margin-bottom: 24px;
+  text-align: right;
+}
+.elderly-activity-card {
+  border-radius: 16px !important;
+  background: #f9fbfd !important;
+  min-height: 180px;
+}
+@media (max-width: 900px) {
+  .elderly-main-content {
+    flex-direction: column;
+    gap: 0;
+  }
+  .elderly-side-info, .elderly-calendar-wide {
+    max-width: 100%;
+    width: 100%;
+  }
+  .elderly-calendar-card {
+    min-height: 320px;
+  }
+}

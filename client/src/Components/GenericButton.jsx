@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'antd'; // אם אתה משתמש ב-Ant Design
+import { Button } from 'antd';
 import { useGenericButton } from '../CustomHook/useGenericButton';
 
 function GenericButton({ label, action }) {

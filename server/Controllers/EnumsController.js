@@ -18,7 +18,7 @@ function getRoles(req, res) {
 }
 function getRolesWithOutManager(req, res) {
     const filteredRoles = Object.values(Roles).filter(role => role != Roles.ADMIN); // סינון הערך של ADMIN
-    res.status(200).send(filteredRoles); // שליחת הרשימה המסוננת
+    res.status(200).send(filteredRoles); 
 }
 function getUserStatus(req, res) {
     res.status(200).send(UserStatus);

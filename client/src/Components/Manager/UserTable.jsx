@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Table, Select, Tag, Typography } from "antd";
+import { useEffect, useState } from "react";
+import { Table, Select, Tag, Typography, message } from "antd";
 import axios from "axios";
 import { useEnum } from "../../Enums/useEnum";
 
@@ -11,29 +11,20 @@ const UserTable = ({ managerId }) => {
   const [filteredRole, setFilteredRole] = useState(null);
   const [filteredStatus, setFilteredStatus] = useState(null); // ← חדש
   const [loading, setLoading] = useState(true);
- const userData = localStorage.getItem("user");
-  // const user= userData ? JSON.parse(userData) :null;
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const token = localStorage.getItem("token");
         const res = await axios.get(
           `http://localhost:8080/Manager/getByIdWithQueueElderlyToSignIn/${managerId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { withCredentials: true }
         );
-       
         setUsers(res.data.QueueElderlyToSignIn || []);
       } catch (error) {
-        console.error("שגיאה בשליפת המשתמשים:", error);
+        message.error("שגיאה בשליפת המשתמשים");
       } finally {
         setLoading(false);
       }
     };
-
     fetchUsers();
   }, [managerId]);
 
@@ -88,7 +79,6 @@ const UserTable = ({ managerId }) => {
 
   const { data: Roles } = useEnum("getRoles");
   const { data: UserStatus } = useEnum("getUserStatus");
-console.log(UserStatus)
   return (
     <div style={{ padding: "2rem" }}>
       <Title level={3}>רשימת משתמשים בהרשמה</Title>
@@ -122,17 +112,7 @@ console.log(UserStatus)
             ))}
         </Select>
       </div>
-      {/* <Select
-        placeholder="סינון לפי תפקיד"
-        style={{ width: 200, marginBottom: 16 }}
-        onChange={handleRoleFilter}
-        allowClear
-      >
-        <Option value="ADMIN">מנהל</Option>
-        <Option value="elderly">זקן</Option>
-        <Option value="cleaner">מנקה</Option>
-      </Select> */}
-
+      
       <Table
         dataSource={filteredUsers}
         columns={columns}

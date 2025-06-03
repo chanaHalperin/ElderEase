@@ -1,0 +1,24 @@
+.elder-modal-form .ant-form-item {
+  margin-bottom: 18px;
+}
+.elder-modal-form .ant-form-item-label > label {
+  font-weight: 500;
+  color: #223a5e;
+}
+.elder-modal-form .ant-input,
+.elder-modal-form .ant-input-number,
+.elder-modal-form .ant-select-selector,
+.elder-modal-form .ant-picker {
+  border-radius: 12px !important;
+  background: #fff !important;
+}
+.elder-modal-form .ant-btn-primary {
+  background: #1890ff;
+  border-radius: 22px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.elder-modal-form .ant-btn-primary:hover {
+  background: #40a9ff;
+}

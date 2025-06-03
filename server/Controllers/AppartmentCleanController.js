@@ -42,4 +42,13 @@ async function getByAppartmentId(req,res) {
     let a=await AppartmentCleanModule.find({AppartmentId:req.params.AppartmentId})
     res.status(200).send(a)
 }
-module.exports={ getAll,getById,create,deleteById,update,getByIdWithCleaner,getAllWithCleaner,getByCleanerId,getByAppartmentId} 
+module.exports={ 
+    getAll,
+    getById,
+    create,
+    deleteById,
+    update,
+    getByIdWithCleaner,
+    getAllWithCleaner,
+    getByCleanerId,
+    getByAppartmentId} 

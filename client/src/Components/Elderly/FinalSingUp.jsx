@@ -14,109 +14,83 @@ import { useEnum } from "../../Enums/useEnum";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../Store/UserSlice";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { sendEmail } from '../../SendEmail';
+import '../../styles/Elderly/ElderlyFinalSingUp.css';
+import ApartmentSelectModal from "../Apartment/ApartmentSelectModal"; // תיצור קומפוננטה כזו
 const { Option } = Select;
 
 const ElderRegistrationModal = ({ onClose }) => {
   const [form] = Form.useForm();
-  const [visible, setVisible] = useState(true); // מוצג כברירת מחדל
-const navigate = useNavigate();
+  const [visible, setVisible] = useState(true);
   const dispatch = useDispatch();
+  const [apartmentModalOpen, setApartmentModalOpen] = useState(false);
+  const [selectedApartment, setSelectedApartment] = useState(null);
+
   const {
     data: genderOptions,
     loading: loadingGender,
-    error: errorGender,
   } = useEnum("getGender");
-  console.log(genderOptions);
 
   const {
     data: personalStatusOptions,
     loading: loadingPersonalStatus,
-    error: errorPersonalStatus,
   } = useEnum("getPersonalStatus");
-   const {
+
+  const {
     data: userStatus,
-    loading: loadinguserStatus,
-    error: erroruserStatus,
   } = useEnum("getUserStatus");
 
-  const onFinish =async (values) => {
-    console.log("Submitted:", values);
-    try{
-    await createElderlyFinal(values);
-    //jhvodwbbdkebvp
- dispatch(setUser({ Status: userStatus.ACTIVE }));
-        //האם לנווט פה?       
-        navigate("/HomeElderly");
-    onClose();}
-    catch (error) {
-      console.error("Error creating elderly:", error);
+  const onFinish = async (values) => {
+    try {
+      await createElderlyFinal(values);
+      dispatch(setUser({ Status: userStatus.ACTIVE }));
+      onClose();
+    } catch (error) {
+      //לשנות את ההודעה לנוטיפיקשיין
       alert("אנא נסה שנית שגיאה בהזנת נתונים");
     }
   };
-const user =  useSelector((state) => state.user);
+
+  const user = useSelector((state) => state.user);
+
   async function createElderlyFinal(values) {
-    axios.post(`http://localhost:8080/Elderly/create`,
-      {   Status:user.Status,
-        RefId: user._id, 
-        ...values,},
-      { headers: { 'Content-Type': 'application/json' } })
-    .then((res) => {
-      console.log('', res.data);
-      sendEmail({to: user.Email,
-                       subject: `claps ${user.FirstName} ${user.LastName}`,
-                       text: `you finished your signUp come ang enjoy here http://localhost:5173, we are waiting for you your data is : ${user}`,
-  })
-    })
-    .catch((err) => {
-      console.error(err);
-    });   
+    axios.post(`http://localhost:8080/Elderly/create` ,
+      { Status: user.Status, RefId: user._id, ...values },
+      { withCredentials: true   }
+    )
+      .then((res) => {
+        sendEmail({
+          to: user.Email,
+          subject: `claps ${user.FirstName} ${user.LastName}`,
+          text: `you finished your signUp come ang enjoy here http://localhost:5173, we are waiting for you your data is : ${user}`,
+        })
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
-  const handleModalClose = () => { // פונקציה לסגירת המודל ועדכון הסטייט באב
+
+  const handleModalClose = () => {
     setVisible(false);
-    onClose(); // קריאה לפונקציה שהועברה מהקומפוננטה האב
+    onClose();
   };
+
   return (
     <Modal
       title="טופס רישום זקן"
       open={visible}
       onCancel={handleModalClose}
-      onFinish={onFinish}
       footer={null}
       width={600}
+      bodyStyle={{ background: "#f9fbfd", borderRadius: 18 }}
     >
-      <Form form={form} layout="vertical" onFinish={onFinish}>
-        <Form.Item
-          label="שם מלא"
-          name="FullName"
-          rules={[{ required: true, message: "נא להזין שם מלא" }]}
-        >
-          <Input placeholder="לדוגמה: ישראל ישראלי" />
-        </Form.Item>
-
-        {/* <Form.Item
-          label="מגדר"
-          name="Gender"
-          rules={[{ required: true, message: "נא לבחור מגדר" }]}
-        >
-          <Spin spinning={genderOptions}>
-            <Select placeholder="בחר מגדר">
-              {genderOptions?.map((option) => (
-                <Option key={option} value={option}>
-                  {option}
-                </Option>
-              ))}
-            </Select>
-          </Spin>
-        </Form.Item> */}
-               {/* <Form.Item
-          label="מגדר"
-          name="Gender"
-          rules={[{ required: true, message: "נא לבחור מגדר" }]}
-        >
+      <Form form={form} layout="vertical" onFinish={onFinish} className="elder-modal-form">
+        <Form.Item label="מגדר" name="Gender" rules={[{ required: true, message: "נא לבחור מגדר" }]}>
           <Spin spinning={loadingGender}>
-            <Select placeholder="בחר מגדר">
+            <Select
+              placeholder="בחר מגדר"
+              onChange={(value) => form.setFieldsValue({ Gender: value })}
+            >
               {genderOptions && Object.values(genderOptions).map((value) => (
                 <Option key={value} value={value}>
                   {value}
@@ -124,43 +98,17 @@ const user =  useSelector((state) => state.user);
               ))}
             </Select>
           </Spin>
-        </Form.Item> */}
-<Form.Item label="מגדר" name="Gender" rules={[{ required: true, message: "נא לבחור מגדר" }]}>
-    <Spin spinning={loadingGender}>
-        <Select
-            placeholder="בחר מגדר"
-            onChange={(value) => form.setFieldsValue({ Gender: value })} // <-- הוסף את זה
-        >
-            {genderOptions && Object.values(genderOptions).map((value) => (
-                <Option key={value} value={value}>
-                    {value}
-                </Option>
-            ))}
-        </Select>
-    </Spin>
-</Form.Item>
-        {/* <Form.Item
-          label="מצב משפחתי"
-          name="PersonalStatus"
-          rules={[{ required: true, message: "נא לבחור מצב משפחתי" }]}
-        >
-          <Spin spinning={loadingPersonalStatus}>
-            <Select placeholder="בחר מצב משפחתי">
-              {personalStatusOptions?.map((option) => (
-                <Option key={option.value} value={option.value}>
-                  {option.label}
-                </Option>
-              ))}
-            </Select>
-          </Spin>
-        </Form.Item> */}
-        {/* <Form.Item
+        </Form.Item>
+        <Form.Item
           label="מצב אישי"
-          name="personalStatus"
+          name="PersonalStatus"
           rules={[{ required: true, message: "נא לבחור מצב אישי" }]}
         >
           <Spin spinning={loadingPersonalStatus}>
-            <Select placeholder="בחר מצב אישי">
+            <Select
+              placeholder="בחר מצב אישי"
+              onChange={(value) => form.setFieldsValue({ PersonalStatus: value })}
+            >
               {personalStatusOptions && Object.values(personalStatusOptions).map((value) => (
                 <Option key={value} value={value}>
                   {value}
@@ -168,21 +116,7 @@ const user =  useSelector((state) => state.user);
               ))}
             </Select>
           </Spin>
-        </Form.Item> */}
-<Form.Item label="מצב אישי" name="personalStatus" rules={[{ required: true, message: "נא לבחור מצב אישי" }]}>
-    <Spin spinning={loadingPersonalStatus}>
-        <Select
-            placeholder="בחר מצב אישי"
-            onChange={(value) => form.setFieldsValue({ personalStatus: value })} // <-- הוסף את זה
-        >
-            {personalStatusOptions && Object.values(personalStatusOptions).map((value) => (
-                <Option key={value} value={value}>
-                    {value}
-                </Option>
-            ))}
-        </Select>
-    </Spin>
-</Form.Item>
+        </Form.Item>
         <Form.Item
           label="תאריך לידה"
           name="DateOfBirth"
@@ -190,7 +124,6 @@ const user =  useSelector((state) => state.user);
         >
           <DatePicker format="DD/MM/YYYY" style={{ width: "100%" }} />
         </Form.Item>
-
         <Form.Item
           label="טלפון קרוב משפחה"
           name="RelativePhone"
@@ -201,7 +134,6 @@ const user =  useSelector((state) => state.user);
         >
           <Input placeholder="לדוגמה: 050-1234567" />
         </Form.Item>
-
         <Form.Item
           label="מספר תיק רפואי"
           name="MedicalBag"
@@ -212,11 +144,30 @@ const user =  useSelector((state) => state.user);
         >
           <InputNumber style={{ width: "100%" }} />
         </Form.Item>
-
-        <Form.Item label="מזהה דירה (אם יש)" name="ApartmentId">
-          <Input placeholder="ObjectId או מזהה פנימי" />
+        <Form.Item
+          label="בחר דירה"
+          name="ApartmentId"
+          rules={[{ required: true, message: "נא לבחור דירה" }]}
+        >
+          <Button type="primary" onClick={() => setApartmentModalOpen(true)}>
+            פתח רשימת דירות פנויות
+          </Button>
+          {selectedApartment && (
+            <div style={{ marginTop: 8, color: "#1890ff" }}>
+              דירה שנבחרה: {selectedApartment}
+            </div>
+          )}
+          <ApartmentSelectModal
+            open={apartmentModalOpen}
+            userId={user._id}
+            onSelect={apartmentId => {
+              setSelectedApartment(apartmentId);
+              form.setFieldsValue({ ApartmentId: apartmentId });
+              setApartmentModalOpen(false);
+            }}
+            onCancel={() => setApartmentModalOpen(false)}
+          />
         </Form.Item>
-
         <Form.Item
           name="HasPhilipin"
           valuePropName="checked"
@@ -231,7 +182,6 @@ const user =  useSelector((state) => state.user);
         >
           <Checkbox>יש מטפל פיליפיני</Checkbox>
         </Form.Item>
-
         <Form.Item>
           <Button type="primary" htmlType="submit" block>
             שמור

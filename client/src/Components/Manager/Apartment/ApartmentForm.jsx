@@ -1,32 +1,27 @@
-import React, { useState } from 'react';
-import { Form, Input, InputNumber, Select, Button, Upload, message, Row, Col, Card, Radio } from 'antd';
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+import { useState } from 'react';
+import { Form, InputNumber, Select, Button, Upload, message, Card, Radio } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import AploadPicture from '../../AploadPicture';
-
 const { Option } = Select;
 const { Dragger } = Upload;
 
-const ApartmentForm = () => {
+const ApartmentForm = ({ openNotification, scrollToTop, setShowAddApartment  }) => {
   const [form] = Form.useForm();
   const [imageList, setImageList] = useState([]);
-  const [apartmentPlan, setApartmentPlan] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
 
   // פונקציה להעלאת התמונות
   const handleImageChange = (info) => {
     if (info.file.status === 'done') {
-      // שמירת שם הקובץ כולל הסיומת
-      const fileNameWithExtension = info.file.name;  // שם הקובץ עם הסיומת (למשל: "image1.jpg")
-  
+      const fileNameWithExtension = info.file.name;
       setImageList(prevList => [
         ...prevList,
-        fileNameWithExtension  // הוספת שם הקובץ לרשימה
+        fileNameWithExtension
       ]);
-  
-      message.success(`${info.file.name} file uploaded successfully`);
+
     } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
+      message.error(`${info.file.name} נכשל בהעלאה`);
     }
   };
 
@@ -36,97 +31,127 @@ const ApartmentForm = () => {
       Id: values.Id,
       Floor: values.Floor,
       NumOfRooms: values.NumOfRooms,
-      IsView: values.IsView, // כאן נשלח את ערך ה-boolean עבור נוף
+      IsView: values.IsView,
       MonthlyPrice: values.MonthlyPrice,
       SizeInSquareMeters: values.SizeInSquareMeters,
       Status: values.Status,
-      Images: imageList, // המערך של התמונות שהועלו
-      ApartmentPlan: imageUrl, // תכנית הדירה שהועלתה
+      Images: imageList,
+      ApartmentPlan: imageUrl,
     };
 
     try {
-      const response = await axios.post('http://localhost:8080/Apartment/create', apartmentData);
-      message.success('Apartment added successfully');
+      await axios.post('http://localhost:8080/Apartment/create', apartmentData, { withCredentials: true });
+      message.success('הדירה נוספה בהצלחה');
       form.resetFields();
-      setImageList([]); // איפוס המערך
-      setApartmentPlan(null); // איפוס תמונת תכנית הדירה
+      setImageList([]);
+      openNotification("success", "הדירה נוספה בהצלחה!", "הדירה החדשה נוספה למערכת.");
+      setShowAddApartment(false); // סגור את החלון
+      scrollToTop && scrollToTop();
     } catch (error) {
-      message.error('Failed to add apartment');
+      openNotification?.('error', "שגיאה בשמירה", "התרחשה תקלה בעת שמירת נתוני הדירה. נסה שוב מאוחר יותר.");
     }
   };
 
   return (
-    <Row justify="center" style={{ padding: '50px', width: '100%' }}>
-      <Col span={24}>
-        <Card title="Add New Apartment" variant="outlined">
-          <Form form={form} onFinish={onFinish} layout="vertical">
-            {/* שדות הטופס */}
-            <Form.Item label="Apartment ID" name="Id" rules={[{ required: true, message: 'Please input the apartment ID!' }]}>
+    <>
+      <style>
+        {`
+        .apartment-form-card {
+          background: #f9fbfd !important;
+          border-radius: 18px;
+          box-shadow: 0 2px 16px #223a5e11;
+          padding: 32px 18px 18px 18px;
+          margin-bottom: 24px;
+        }
+        .apartment-form .ant-form-item {
+          margin-bottom: 18px;
+        }
+        .apartment-form .ant-form-item-label > label {
+          font-weight: 500;
+          color: #223a5e;
+        }
+        .apartment-form .ant-input,
+        .apartment-form .ant-input-number,
+        .apartment-form .ant-select-selector {
+          border-radius: 12px !important;
+          background: #fff !important;
+        }
+        .apartment-form .ant-btn-primary {
+          background: #52c41a;
+          border-radius: 22px;
+          font-size: 1.1rem;
+          font-weight: 600;
+          transition: background 0.2s;
+        }
+        .apartment-form .ant-btn-primary:hover {
+          background: #73d13d;
+        }
+        .apartment-form .ant-radio-group {
+          gap: 16px;
+        }
+        `}
+      </style>
+      <div style={{ maxWidth: 800, margin: 'auto', padding: '20px' }} dir="rtl">
+        <Card className="apartment-form-card" title="הוספת דירה חדשה" headStyle={{ textAlign: 'right', fontWeight: 700 }}>
+          <Form
+            form={form}
+            onFinish={onFinish}
+            layout="vertical"
+            className="apartment-form"
+          >
+            <Form.Item label="מזהה דירה" name="Id" rules={[{ required: true, message: 'נא להזין מזהה דירה!' }]}>
               <InputNumber style={{ width: '100%' }} min={1} />
             </Form.Item>
-
-            <Form.Item label="Floor" name="Floor" rules={[{ required: true, message: 'Please input the floor number!' }]}>
+            <Form.Item label="קומה" name="Floor" rules={[{ required: true, message: 'נא להזין קומה!' }]}>
               <InputNumber style={{ width: '100%' }} min={-4} />
             </Form.Item>
-
-            <Form.Item label="Number of Rooms" name="NumOfRooms" rules={[{ required: true, message: 'Please input the number of rooms!' }]}>
+            <Form.Item label="מספר חדרים" name="NumOfRooms" rules={[{ required: true, message: 'נא להזין מספר חדרים!' }]}>
               <InputNumber style={{ width: '100%' }} min={1} max={5} />
             </Form.Item>
-
-            {/* שדה נוף עם כפתורי רדיו */}
-            <Form.Item label="Is there a view?" name="IsView" rules={[{ required: true, message: 'Please select if there is a view!' }]}>
+            <Form.Item label="נוף" name="IsView" rules={[{ required: true, message: 'נא לבחור אם יש נוף!' }]}>
               <Radio.Group>
-                <Radio value={true}>Yes</Radio>
-                <Radio value={false}>No</Radio>
+                <Radio value={true}>יש</Radio>
+                <Radio value={false}>אין</Radio>
               </Radio.Group>
             </Form.Item>
-
-            <Form.Item label="Monthly Price" name="MonthlyPrice" rules={[{ required: true, message: 'Please input the monthly price!' }]}>
+            <Form.Item label="מחיר חודשי" name="MonthlyPrice" rules={[{ required: true, message: 'נא להזין מחיר חודשי!' }]}>
               <InputNumber style={{ width: '100%' }} min={0} />
             </Form.Item>
-
-            <Form.Item label="Size in Square Meters" name="SizeInSquareMeters" rules={[{ required: true, message: 'Please input the size!' }]}>
+            <Form.Item label="גודל במטר" name="SizeInSquareMeters" rules={[{ required: true, message: 'נא להזין גודל!' }]}>
               <InputNumber style={{ width: '100%' }} min={10} />
             </Form.Item>
-
-            <Form.Item label="Apartment Status" name="Status" rules={[{ required: true, message: 'Please select the apartment status!' }]}>
+            <Form.Item label="סטטוס דירה" name="Status" rules={[{ required: true, message: 'נא לבחור סטטוס!' }]}>
               <Select style={{ width: '100%' }}>
-                <Option value="available">Available</Option>
-                <Option value="occupied">Occupied</Option>
-                <Option value="maintenance">Maintenance</Option>
+                <Option value="available">פנויה</Option>
+                <Option value="occupied">תפוסה</Option>
+                <Option value="maintenance">תחזוקה</Option>
               </Select>
             </Form.Item>
-
-            {/* רכיב העלאת תכנית הדירה */}
-            <Form.Item label="Apartment Plan" name="ApartmentPlan">
+            <Form.Item label="תכנית דירה" name="ApartmentPlan">
               <AploadPicture setImageUrl={setImageUrl} />
             </Form.Item>
-
-            {/* רכיב העלאת התמונות */}
-            <Form.Item label="Upload Images" name="Images">
+            <Form.Item label="העלאת תמונות" name="Images">
               <Dragger
                 name="file"
-                multiple={true}  // אפשרות להעלות מספר תמונות
-                action="http://localhost:8080/upload"  // כתובת להעלאת התמונות
+                multiple={true}
+                action="http://localhost:8080/upload"
                 onChange={handleImageChange}
               >
                 <p className="ant-upload-drag-icon">
                   <UploadOutlined />
                 </p>
-                <p className="ant-upload-text">Click or drag images to this area to upload</p>
+                <p className="ant-upload-text">לחץ או גרור תמונות לכאן להעלאה</p>
               </Dragger>
             </Form.Item>
-
-            {/* כפתור הוספה */}
             <Form.Item>
               <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-                Add Apartment
+                הוסף דירה
               </Button>
             </Form.Item>
           </Form>
         </Card>
-      </Col>
-    </Row>
+      </div>
+    </>
   );
 };
 

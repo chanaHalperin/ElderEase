@@ -1,0 +1,286 @@
+:root {
+  --main-bg: #f8f6f3;
+  --main-blue: #3a5ca8;
+  --main-orange: #e6b07a;
+  --main-white: #fff;
+  --main-gray: #f0f2f5;
+  --main-shadow: 0 4px 24px 0 rgba(58,92,168,0.08);
+}
+
+/* פתיח עם קרוסלה */
+.home-hero-carousel {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 420px;
+  overflow: hidden;
+}
+.hero-carousel, .hero-slide {
+  width: 100vw;
+  height: 100vh;
+  min-height: 420px;
+  position: relative;
+}
+.hero-img {
+  width: 100vw;
+  height: 100vh;
+  min-height: 420px;
+  object-fit: cover;
+  /* filter: brightness(0.55) blur(0.5px); */
+  transition: filter 0.5s;
+}
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(90deg, #3a5ca8cc 0%, #e6b07a66 100%);
+  opacity: 0.45;
+  z-index: 1;
+}
+.hero-caption {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  color: #fff;
+  text-align: center;
+  width: 90vw;
+  max-width: 700px;
+  padding: 32px 18px 32px 18px;
+  box-shadow: 0 4px 24px 0 rgba(58,92,168,0.10);
+}
+
+.hero-caption h1 {
+  font-size: 2.7rem;
+  font-weight: 900;
+  margin-bottom: 18px;
+  color: #fff;
+  text-shadow: 0 2px 16px #3a5ca888;
+}
+.hero-caption .ant-typography {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 24px;
+}
+.hero-cta {
+  background: var(--main-orange);
+  border: none;
+  color: var(--main-white);
+  font-size: 1.1rem;
+  border-radius: 24px;
+  padding: 0 36px;
+  height: 48px;
+  box-shadow: 0 2px 8px #e6b07a44;
+  transition: background 0.2s;
+}
+.hero-cta:hover {
+  background: #d89a5b;
+  color: var(--main-white);
+}
+
+/* אודות */
+.home-about {
+  background: var(--main-white);
+  padding: 56px 0 32px 0;
+}
+.about-img {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 28px;
+  box-shadow: var(--main-shadow);
+  margin-bottom: 24px;
+  display: block;
+}
+
+/* תכונות */
+.home-features {
+  padding: 48px 0 24px 0;
+  background: var(--main-white);
+}
+.home-feature-card {
+  border-radius: 24px;
+  box-shadow: var(--main-shadow);
+  transition: transform 0.2s;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.home-feature-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 8px 32px 0 rgba(58,92,168,0.13);
+}
+.home-feature-img-contain {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  background: #f0f2f5;
+  border-radius: 18px 18px 0 0;
+}
+
+/* אזור תרבות */
+.home-activities {
+  background: var(--main-gray);
+  padding: 48px 0 24px 0;
+}
+.activity-card {
+  border-radius: 20px;
+  box-shadow: var(--main-shadow);
+  text-align: center;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: #fff;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.activity-card:hover {
+  box-shadow: 0 8px 32px 0 rgba(58,92,168,0.13);
+  transform: translateY(-8px) scale(1.03);
+}
+.activity-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 16px 16px 0 0;
+  margin-bottom: 10px;
+}
+
+/* צוות */
+.home-staff {
+  background: var(--main-white);
+  padding: 48px 0 24px 0;
+  text-align: center;
+}
+.staff-card {
+  border-radius: 20px;
+  box-shadow: var(--main-shadow);
+  text-align: center;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f8f6f3;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.staff-card:hover {
+  box-shadow: 0 8px 32px 0 rgba(58,92,168,0.13);
+  transform: translateY(-8px) scale(1.03);
+}
+
+/* המלצות */
+.home-testimonials {
+  background: var(--main-white);
+  padding: 48px 0 24px 0;
+}
+.testimonial-card {
+  border-radius: 20px;
+  box-shadow: var(--main-shadow);
+  text-align: center;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f8f6f3;
+}
+.testimonial-text {
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 12px;
+}
+
+/* וידאו */
+.home-video-section {
+  background: #fff;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+.video-wrapper {
+  width: 100vw;
+  height: 60vw;
+  max-height: 600px;
+  min-height: 220px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f6f3;
+  overflow: hidden;
+}
+.video-wrapper video {
+  width: 100vw;
+  height: 60vw;
+  max-width: 100vw;
+  max-height: 600px;
+  min-height: 220px;
+  object-fit: cover;
+  border-radius: 0 0 36px 36px;
+  box-shadow: 0 4px 24px 0 rgba(58,92,168,0.08);
+  background: #f8f6f3;
+  display: block;
+}
+.video-caption {
+  color: #3a5ca8;
+  font-size: 1.1rem;
+  margin-top: 8px;
+}
+
+/* גלריית ענק מתקדמת */
+.home-big-gallery {
+  /* padding: 64px 0 48px 0; */
+  text-align: center;
+  background: #f8f6f3 !important;
+}
+.big-gallery-carousel .slick-slide {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+.big-gallery-img {
+  height: 90vh;
+  width:auto;
+  /* max-width: 900px; */
+  object-fit: cover;
+  border-radius: 32px;
+  box-shadow: 0 4px 16px 0 rgba(58,92,168,0.10);
+  margin: 0 auto;
+  transition: box-shadow 0.3s, transform 0.3s;
+  border: 4px solid #fff;
+}
+
+/* CTA */
+.home-cta-section {
+  background: linear-gradient(90deg, #e3eaf4 0%, #f8f6f3 100%);
+  padding: 48px 0 24px 0;
+  text-align: center;
+}
+.cta-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* פוטר */
+.home-footer {
+  background: var(--main-white);
+  text-align: center;
+  padding: 24px 0 8px 0;
+  font-size: 1rem;
+  color: #888;
+  border-top: 1px solid #e6b07a33;
+}
+
+/* רספונסיביות */
+@media (max-width: 900px) {
+  .hero-carousel, .hero-slide, .hero-img { height: 60vw; min-height: 220px; }
+  .video-wrapper, .video-wrapper video { height: 40vw; min-height: 120px; }
+  .big-gallery-img { height: 180px; }
+}
+@media (max-width: 600px) {
+  .hero-caption h1 { font-size: 1.3rem; }
+  .hero-carousel, .hero-slide, .hero-img { height: 40vw; min-height: 120px; }
+  .video-wrapper, .video-wrapper video { height: 28vw; min-height: 80px; }
+  .big-gallery-img { height: 90px; }
+}

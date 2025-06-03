@@ -1,0 +1,103 @@
+/* רקע כללי */
+.activities-list-bg, .apartment-list-bg {
+  min-height: 100vh;
+  background: #f7fafc;
+  padding: 0;
+}
+
+/* כרטיס ראשי */
+.activities-list-card, .apartment-list-card {
+  max-width: 1200px;
+  margin: 40px auto 0 auto;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 2px 16px #223a5e11;
+  padding: 32px 18px 24px 18px;
+}
+
+/* כותרת */
+.activities-list-header, .apartment-list-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* מסננים */
+.activities-list-filters, .apartment-list-filters {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+/* שורת כרטיסים ממורכזת */
+.activities-list-row,
+.apartment-list-row {
+  display: flex !important;
+  flex-wrap: wrap;
+  justify-content: center !important;
+  align-items: stretch;
+  width: 100%;
+  margin: 0 auto;
+  padding-bottom: 32px;
+}
+
+/* כל עמודת כרטיס ממורכזת */
+/* .activities-list-row > .ant-col,
+.apartment-list-row > .ant-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
+/* כרטיס בודד */
+.activity-card, .apartment-card {
+  width: 100%;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  border-radius: 16px !important;
+  background: #f9fbfd !important;
+  box-shadow: 0 2px 16px #223a5e11;
+}
+
+/* ספינר טעינה */
+.activities-list-spin, .apartment-list-spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+/* .activity-card {
+  width: 100%;
+  max-width: 100%; /* או אל תגדיר בכלל */
+/* } */ 
+.activity-card {
+  width: 100%;
+  max-width: 100%;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  border-radius: 16px !important;
+  background: #f9fbfd !important;
+  box-shadow: 0 2px 16px #223a5e11;
+}
+
+
+/* רספונסיביות */
+@media (max-width: 900px) {
+  .activities-list-card, .apartment-list-card {
+    padding: 18px 4px 12px 4px;
+  }
+  .activities-list-filters, .apartment-list-filters {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .activities-list-row, .apartment-list-row {
+    padding-bottom: 12px;
+  }
+}

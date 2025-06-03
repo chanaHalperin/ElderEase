@@ -1,10 +1,11 @@
-import {createSlice} from '@reduxjs/toolkit';
-
+import { createSlice } from '@reduxjs/toolkit';
+import CreateToken from "../CreateToken"
+import { useNavigate } from 'react-router-dom';
 const initialState = JSON.parse(localStorage.getItem("user")) || {
-  RefId: null, 
-  Id: null, 
+  RefId: null,
+  Id: null,
   Phone: null,
-  FirstName: null, 
+  FirstName: null,
   LastName: null,
   Email: null,
   Password: null,
@@ -16,19 +17,26 @@ const userSlice = createSlice({
   name: 'UserSlice',
   initialState: initialState,
   reducers: {
- setUser: (state, action) => {
-  // const updatedUser = { ...state, ...action.payload };
-  // localStorage.setItem('user', JSON.stringify(updatedUser));
-    Object.assign(state, action.payload); // מעדכן רק את מה שנשלח
-  localStorage.setItem('user', JSON.stringify(state));
-  console.log("after load user to local storage", state);
-  return state;
-},
+    setUser: (state, action) => {
+      // const updatedUser = { ...state, ...action.payload };
+      // localStorage.setItem('user', JSON.stringify(updatedUser));
+      //קריאה לcreatetoken
+      Object.assign(state, action.payload); // עדכון state
+      //CreateToken({ Id: action.payload.Id, Role: action.payload.Role });
+      localStorage.setItem('user', JSON.stringify(state));
+      return state;
+    },
+    // logoutUser: (state) => {
+    //   state = null;
+    //   localStorage.removeItem("user");
+    //   const navigate = useNavigate();
+    //   navigate("/");
+    // },
     logoutUser: (state) => {
       state = null;
       localStorage.removeItem("user");
     },
   },
 });
-export const {setUser,logoutUser} = userSlice.actions;
+export const { setUser, logoutUser } = userSlice.actions;
 export default userSlice.reducer

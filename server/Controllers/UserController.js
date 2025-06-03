@@ -29,7 +29,6 @@ async function getByPassword(req, res){
       }
       res.json(user);
     } catch (error) {
-      console.error('Error finding user by password:', error);
       res.status(500).send('Server error');
     }
   };
@@ -40,11 +39,8 @@ async function getByPassword(req, res){
         if (!user) {
             return res.status(404).send('User not found');
         }
-        console.log("this. password: "+password)
-        console.log("user. password: "+user.Password)
         // השוואת הסיסמה שסופקה לסיסמה המוצפנת
         const isMatch = await bcrypt.compare(password, user.Password);
-        
         if (!isMatch) {
             return res.status(401).send('Invalid password'+",  this. password:"+password+",  user. password:"+user.Password);
         }
@@ -52,7 +48,6 @@ async function getByPassword(req, res){
         const { Password, ...userWithoutPassword } = user.toObject();
         res.json(userWithoutPassword).send();
     } catch (error) {
-        console.error('Error finding user by Id and password:', error);
         res.status(500).send('Server error');
     }
 }
@@ -61,15 +56,11 @@ async function create(req, res) {
     try {
         // הצפנת הסיסמה
         const hashedPassword = await bcrypt.hash(req.body.Password, 10);
-
         // יצירת אובייקט המשתמש עם הסיסמה המוצפנת
         const userData = { ...req.body, Password: hashedPassword };
         const m = new UserModule(userData);
-
         // שמירת המשתמש במסד הנתונים
         await m.save();
-
-        console.log("User created successfully");
         res.status(200).send(m);
     } catch (err) {
         if (err.code === 11000) {
@@ -99,7 +90,6 @@ async function updateUserReference(userId, RefId) {
 }
 // פונקציה לוגית לעדכון שדה הסטטוס בלבד
 async function updateUserStatusFromLocal(userId, status) {
-    console.log("this is userId: " + userId+ " now this is status: " + status);
     return await UserModule.findByIdAndUpdate(userId,
         { Status: status }, { new: true });
 }
