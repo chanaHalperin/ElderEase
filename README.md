@@ -21,22 +21,22 @@
 
 | Page | Screenshot |
 |------|------------|
-| Home | ![Home](docs/home-page.png) |
-| Login | ![Login](docs/login-page.png) |
-| Activity Tracking | ![Activity](docs/activity-page.png) |
-| Apartments | ![Apartments](docs/appartments-page.png) |
+| Home | ![Home](doc/home-page.png) |
+| Login | ![Login](doc/login-page.png) |
+| Activity Tracking | ![Activity](doc/activity-page.png) |
+| Apartments | ![Apartments](doc/appartments-page.png) |
 
 ### Cleaner Role Interface
 
-![Cleaner Page](docs/cleaner-page.gif)
+![Cleaner Page](doc/cleaner-page.gif)
 
 ### Elderly Role Interface
 
-![Cleaner Page](docs/elderly-page.gif)
+![Cleaner Page](doc/elderly-page.gif)
 
 ### Manager Role Interface
 
-![Cleaner Page](docs/manager-page.gif)
+![Cleaner Page](doc/manager-page.gif)
 
 
 ---
